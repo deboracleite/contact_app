@@ -70,4 +70,18 @@ describe('Test Contact App', () => {
     cy.get('table tbody>tr:nth-child(2)>td:nth-child(1)').invoke('text').should('match', nameRegex);
     
   })
+
+  it('Test if the application delete the contact correctly.',()=>{
+
+    cy.addContact();
+
+    cy.get("table tbody>tr:nth-child(2) td>button[name='delete']").should('be.visible').click();
+
+    // Validate if only one row remains in the table after deletion
+    cy.get('table tbody tr').should('have.length', 1);
+
+    // Validate if the table no longer contains the deleted contact
+    cy.get('table tbody tr ').should('not.contain', 'Debora Wessen');
+
+  })
 });
