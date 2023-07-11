@@ -23,3 +23,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
+/// <reference types="Cypress"/>
+
+Cypress.Commands.add('addContact',()=>{
+    cy.get('div.form-row.justify-content-center>div:nth-child(1)>input').type('Debora Wessen');
+    cy.get('div.form-row.justify-content-center>div:nth-child(2)>input').type('111 222 3333');
+    cy.get('div.form-row.justify-content-center>div:nth-child(3)>input').type('debora@test.com');
+
+    cy.get("button[name='add']").click();
+})

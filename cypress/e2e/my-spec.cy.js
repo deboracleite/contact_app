@@ -45,4 +45,29 @@ describe('Test Contact App', () => {
     cy.get('table tbody>tr:nth-child(2) td').should('contain', '111 222 3333');
     cy.get('table tbody>tr:nth-child(2) td').should('contain', 'debora@test.com');
   })
+
+  it('Test if the application edit the contact correctly.', ()=>{
+
+    // Function that adds the contact
+    cy.addContact()
+
+    //Edit contact details.
+    cy.get("table tbody>tr:nth-child(2) td>button[name='edit']").should('be.visible').click();
+
+    cy.get('table tbody tr:nth-child(2)>td:nth-child(1) input').should('be.visible').clear().type('Debora Carvalho Leite Wessen');
+    cy.get('table tbody tr:nth-child(2)>td:nth-child(2) input').should('be.visible').clear().type('000 000 000');
+    cy.get('table tbody tr:nth-child(2)>td:nth-child(2) input').should('be.visible').clear().type(' edit@test.com');
+
+    cy.get("table tbody tr:nth-child(2)>td:nth-child(4)>button[name='update']").click();
+
+    // Validate if the name has changed and if the phone and email fields are empty strings.
+    cy.get('table tbody>tr:nth-child(2)>td:nth-child(1)').should('have.text', 'Debora Carvalho Leite Wessen');
+    cy.get('table tbody>tr:nth-child(2)>td:nth-child(2)').should('not.have.text', '000 000 000');
+    cy.get('table tbody>tr:nth-child(2)>td:nth-child(3)').should('not.have.text', 'edit@test.com');
+
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    // Validate if the name matches the regex
+    cy.get('table tbody>tr:nth-child(2)>td:nth-child(1)').invoke('text').should('match', nameRegex);
+    
+  })
 });
